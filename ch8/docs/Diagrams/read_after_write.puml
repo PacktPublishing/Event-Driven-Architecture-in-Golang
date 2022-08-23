@@ -1,0 +1,21 @@
+@startuml
+!theme plain
+skinparam dpi 400
+skinparam defaultFontName Jetbrains Mono
+'skinparam ParticipantPadding 80
+
+actor User as u
+participant Service as s
+queue "Message Broker" as b
+participant Replica as r
+
+u -> s ++ : Update Profile
+s -> b : Profile Updated
+s -> u -- : Success
+u -> r ++ : Get Profile
+r -> u -- : (stale) Profile
+rnote over u : Confusion ???
+b -->> r ++ : Profile Updated
+|||
+deactivate r
+@enduml

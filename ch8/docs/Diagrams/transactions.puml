@@ -1,0 +1,39 @@
+@startuml
+!theme plain
+skinparam dpi 400
+skinparam defaultFontName Jetbrains Mono
+
+actor User as u
+participant Application as app
+database Database as db
+
+u -> app: Create Order
+group Transaction
+    app -> db: Authorize Customer
+    app -> db: Save Shopping List
+    app -> db: Validate Payment
+    app -> db: Save Order
+end
+app -> u: Order Created
+
+@enduml
+
+@startuml
+!theme plain
+skinparam dpi 400
+skinparam defaultFontName Jetbrains Mono
+
+participant "2PC Coordinator" as 2pc
+participant "Participant A" as a
+participant "Participant B" as b
+
+2pc -> a: Prepare
+2pc -> b: Prepare
+a -> 2pc: Prepared
+b -> 2pc: Prepared
+2pc -> a: Commit
+2pc -> b: Commit
+a -> 2pc: Done
+b -> 2pc: Done
+
+@enduml

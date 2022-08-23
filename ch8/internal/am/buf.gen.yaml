@@ -1,0 +1,12 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: eda-in-golang/internal/am
+    except:
+      - buf.build/googleapis/googleapis
+plugins:
+  - name: go
+    out: .
+    opt:
+      - paths=source_relative

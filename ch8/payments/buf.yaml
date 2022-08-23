@@ -1,0 +1,9 @@
+version: v1
+lint:
+  enum_zero_value_suffix: _UNKNOWN
+  except:
+    - PACKAGE_VERSION_SUFFIX
+    - PACKAGE_DIRECTORY_MATCH
+breaking:
+  use:
+    - FILE

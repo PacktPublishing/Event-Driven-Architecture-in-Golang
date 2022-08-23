@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package storespb;
+
+service StoresService {
+  rpc CreateStore(CreateStoreRequest) returns (CreateStoreResponse) {};
+  rpc EnableParticipation(EnableParticipationRequest) returns (EnableParticipationResponse) {};
+  rpc DisableParticipation(DisableParticipationRequest) returns (DisableParticipationResponse) {};
+  rpc RebrandStore(RebrandStoreRequest) returns (RebrandStoreResponse) {};
+  rpc GetStore(GetStoreRequest) returns (GetStoreResponse) {};
+  rpc GetStores(GetStoresRequest) returns (GetStoresResponse) {};
+  rpc GetParticipatingStores(GetParticipatingStoresRequest) returns (GetParticipatingStoresResponse) {};
+
+  rpc AddProduct(AddProductRequest) returns (AddProductResponse) {};
+  rpc RebrandProduct(RebrandProductRequest) returns (RebrandProductResponse) {};
+  rpc IncreaseProductPrice(IncreaseProductPriceRequest) returns (IncreaseProductPriceResponse) {};
+  rpc DecreaseProductPrice(DecreaseProductPriceRequest) returns (DecreaseProductPriceResponse) {};
+  rpc RemoveProduct(RemoveProductRequest) returns (RemoveProductResponse) {};
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse) {};
+  rpc GetCatalog(GetCatalogRequest) returns (GetCatalogResponse) {};
+}
+
+message Store {
+  string id = 1;
+  string name = 2;
+  string location = 3;
+  bool participating = 4;
+}
+
+message Product {
+  string id = 1;
+  string store_id = 2;
+  string name = 3;
+  string description = 4;
+  string sku = 5;
+  double price = 6;
+}
+
+message CreateStoreRequest {
+  string name = 1;
+  string location = 2;
+}
+
+message CreateStoreResponse {
+  string id = 1;
+}
+
+message EnableParticipationRequest {
+  string id = 1;
+}
+
+message EnableParticipationResponse {}
+
+message DisableParticipationRequest {
+  string id = 1;
+}
+
+message DisableParticipationResponse {}
+
+message RebrandStoreRequest {
+  string id = 1;
+  string name = 2;
+}
+
+message RebrandStoreResponse {}
+
+message GetStoreRequest {
+  string id = 1;
+}
+
+message GetStoreResponse {
+  Store store = 1;
+}
+
+message GetStoresRequest {}
+
+message GetStoresResponse {
+  repeated Store stores = 1;
+}
+
+message GetParticipatingStoresRequest {}
+
+message GetParticipatingStoresResponse {
+  repeated Store stores = 1;
+}
+
+message AddProductRequest {
+  string store_id = 1;
+  string name = 2;
+  string description = 3;
+  string sku = 4;
+  double price = 5;
+}
+
+message AddProductResponse {
+  string id = 1;
+}
+
+message RebrandProductRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message RebrandProductResponse {}
+
+message IncreaseProductPriceRequest {
+  string id = 1;
+  double price = 2;
+}
+
+message IncreaseProductPriceResponse {}
+
+message DecreaseProductPriceRequest {
+  string id = 1;
+  double price = 2;
+}
+
+message DecreaseProductPriceResponse {}
+
+message RemoveProductRequest {
+  string id = 1;
+}
+
+message RemoveProductResponse {}
+
+message GetCatalogRequest {
+  string store_id = 1;
+}
+
+message GetCatalogResponse {
+  repeated Product products = 1;
+}
+
+message GetProductRequest {
+  string id = 1;
+}
+
+message GetProductResponse {
+  Product product = 1;
+}

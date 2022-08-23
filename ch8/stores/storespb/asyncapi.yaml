@@ -1,0 +1,198 @@
+# ag asyncapi.yaml @asyncapi/html-template --force-write
+asyncapi: '2.3.0'
+info:
+  title: Store Management AsyncAPI
+  version: '1.0.0'
+
+defaultContentType: application/octet-stream
+
+channels:
+  mallbots.stores.events.Store:
+    $ref: '#/components/channels/mallbots.stores.events.Store'
+  mallbots.stores.events.Product:
+    $ref: '#/components/channels/mallbots.stores.events.Product'
+
+components:
+  channels:
+    mallbots.stores.events.Store:
+      subscribe:
+        operationId: storeAggregateEvents
+        message:
+          oneOf:
+            - $ref: '#/components/messages/storesapi.StoreCreatedEvent'
+            - $ref: '#/components/messages/storesapi.StoreParticipationToggledEvent'
+            - $ref: '#/components/messages/storesapi.StoreRebrandedEvent'
+        tags:
+          - name: Store
+      bindings:
+        nats:
+          queue: mallbots.stores.events.Store
+          x-queue-constant: storespb.StoreAggregateChannel
+    mallbots.stores.events.Product:
+      subscribe:
+        operationId: productAggregateEvents
+        message:
+          oneOf:
+            - $ref: '#/components/messages/storesapi.ProductAddedEvent'
+            - $ref: '#/components/messages/storesapi.ProductRebrandedEvent'
+            - $ref: '#/components/messages/storesapi.ProductPriceIncreasedEvent'
+            - $ref: '#/components/messages/storesapi.ProductPriceDecreasedEvent'
+            - $ref: '#/components/messages/storesapi.ProductRemovedEvent'
+        tags:
+          - name: Product
+      bindings:
+        nats:
+          queue: mallbots.stores.events.Product
+          x-queue-constant: storespb.ProductAggregateChannel
+  messages:
+    storesapi.StoreCreatedEvent:
+      title: StoreCreated
+      description: A new store has been created
+      x-name-constant: storespb.StoreCreatedEvent
+      x-payload-type: '*storespb.StoreCreated'
+      payload:
+        $ref: '#/components/schemas/storespb.StoreCreated'
+      tags:
+        - name: Store
+    storesapi.StoreParticipationToggledEvent:
+      title: StoreParticipationToggled
+      description: A store participation status has changed
+      x-name-constant: storespb.StoreParticipationToggledEvent
+      x-payload-type: '*storespb.StoreParticipationToggled'
+      payload:
+        $ref: '#/components/schemas/storespb.StoreParticipationToggled'
+      tags:
+        - name: Store
+    storesapi.StoreRebrandedEvent:
+      title: StoreRebranded
+      description: A store name has been changed
+      x-name-constant: storespb.StoreRebrandedEvent
+      x-payload-type: '*storespb.StoreRebranded'
+      payload:
+        $ref: '#/components/schemas/storespb.StoreRebranded'
+      tags:
+        - name: Store
+    storesapi.ProductAddedEvent:
+      title: ProductAdded
+      description: A new product has been added
+      x-name-constant: storespb.ProductAddedEvent
+      x-payload-type: '*storespb.ProductAdded'
+      payload:
+        $ref: '#/components/schemas/storespb.ProductAdded'
+      tags:
+        - name: Product
+    storesapi.ProductRebrandedEvent:
+      title: ProductAdded
+      description: The product has been rebranded with a new name and description
+      x-name-constant: storespb.ProductRebrandedEvent
+      x-payload-type: '*storespb.ProductRebranded'
+      payload:
+        $ref: '#/components/schemas/storespb.ProductRebranded'
+      tags:
+        - name: Product
+    storesapi.ProductPriceIncreasedEvent:
+      title: ProductPriceIncreased
+      description: The product has a new increased price
+      x-name-constant: storespb.ProductPriceIncreasedEvent
+      x-payload-type: '*storespb.ProductPriceChanged'
+      payload:
+        $ref: '#/components/schemas/storespb.ProductPriceChanged'
+      tags:
+        - name: Product
+    storesapi.ProductPriceDecreasedEvent:
+      title: ProductPriceDecreased
+      description: The product has a new reduced price
+      x-name-constant: storespb.ProductPriceDecreasedEvent
+      x-payload-type: '*storespb.ProductPriceChanged'
+      payload:
+        $ref: '#/components/schemas/storespb.ProductPriceChanged'
+      tags:
+        - name: Product
+    storesapi.ProductRemovedEvent:
+      title: ProductRemoved
+      description: The product has been removed
+      x-name-constant: storespb.ProductRemovedEvent
+      x-payload-type: '*storespb.ProductRemoved'
+      payload:
+        $ref: '#/components/schemas/storespb.ProductRemoved'
+      tags:
+        - name: Product
+  schemas:
+    StoreId:
+      type: string
+      description: Identity of the store
+    ProductId:
+      type: string
+      description: Identity of the product
+    storespb.StoreCreated:
+      type: object
+      additionalProperties: false
+      properties:
+        Id:
+          $ref: '#/components/schemas/StoreId'
+        Name:
+          type: string
+          description: Name of the new store
+        Location:
+          type: string
+          description: Description of the store location in the mall
+    storespb.StoreParticipationToggled:
+      type: object
+      additionalProperties: false
+      properties:
+        Id:
+          $ref: '#/components/schemas/StoreId'
+        Participating:
+          type: boolean
+          description: Whether the store is participating in the service
+    storespb.StoreRebranded:
+      type: object
+      additionalProperties: false
+      properties:
+        Id:
+          $ref: '#/components/schemas/StoreId'
+        Name:
+          type: string
+          description: The new name of the store
+    storespb.ProductAdded:
+      type: object
+      additionalProperties: false
+      properties:
+        Id:
+          $ref: '#/components/schemas/ProductId'
+        StoreId:
+          $ref: '#/components/schemas/StoreId'
+        Name:
+          type: string
+        Description:
+          type: string
+        Sku:
+          type: string
+        Price:
+          type: number
+          format: double
+    storespb.ProductRebranded:
+      type: object
+      additionalProperties: false
+      properties:
+        Id:
+          $ref: '#/components/schemas/ProductId'
+        Name:
+          type: string
+        Description:
+          type: string
+    storespb.ProductPriceChanged:
+      type: object
+      additionalProperties: false
+      properties:
+        Id:
+          $ref: '#/components/schemas/ProductId'
+        Delta:
+          type: number
+          format: double
+    storespb.ProductRemoved:
+      type: object
+      additionalProperties: false
+      properties:
+        Id:
+          $ref: '#/components/schemas/ProductId'
