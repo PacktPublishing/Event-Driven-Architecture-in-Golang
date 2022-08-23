@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package customerspb;
+
+message Customer {
+  string id = 1;
+  string name = 2;
+  string sms_number = 3;
+  bool enabled = 4;
+}

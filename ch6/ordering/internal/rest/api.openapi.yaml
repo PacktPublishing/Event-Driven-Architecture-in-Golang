@@ -1,0 +1,27 @@
+openapiOptions:
+  file:
+    - file: "orderingpb/messages.proto"
+      option:
+        info:
+          title: Order Processing
+          version: "1.0.0"
+        basePath: /
+  method:
+    - method: orderingpb.OrderingService.CreateOrder
+      option:
+        operationId: createOrder
+        tags:
+          - Order
+        summary: Start a new order
+    - method: orderingpb.OrderingService.GetOrder
+      option:
+        operationId: getOrder
+        tags:
+          - Order
+        summary: Get na order
+    - method: orderingpb.OrderingService.CancelOrder
+      option:
+        operationId: cancelOrder
+        tags:
+          - Order
+        summary: Cancel an order

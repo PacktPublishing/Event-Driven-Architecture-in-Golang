@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package jetstream;
+
+import "google/protobuf/timestamp.proto";
+
+message StreamMessage {
+  string id = 1;
+  string name = 2;
+  bytes data = 3;
+}

@@ -1,0 +1,28 @@
+@startuml
+!theme plain
+skinparam dpi 400
+skinparam defaultFontName Jetbrains Mono
+skinparam ParticipantPadding 0
+
+participant Producer as prod
+queue "Message Broker" as b
+participant Consumer as con
+
+prod -> b : Notification    <b>(1)</b>
+prod -> b : Notification    <b>(2)</b>
+b -->> con : Notification    <b>(1)</b>
+
+con -> prod ++ : Callback       <b>(1)</b>
+prod -> b : Notification    <b>(3)</b>
+b -->> con : Notification    <b>(2)</b>
+prod -> con --
+
+con -> prod ++ : Callback       <b>(2)</b>
+b -->> con : Notification    <b>(3)</b>
+prod -> con --
+
+con -> prod ++  : Callback       <b>(3)</b>
+|||
+prod -> con --
+
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+!theme plain
+'skinparam dpi 400
+skinparam defaultFontName Jetbrains Mono
+
+start
+:Start Transaction;
+:Add MessageID to Store;
+if (MessageID added) then (success)
+  :Process Message;
+  if (Success?) then (yes)
+    :Commit;
+  else (no)
+    :Rollback;
+  endif
+else (conflict)
+
+endif
+stop
+
+@enduml

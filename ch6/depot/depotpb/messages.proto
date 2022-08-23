@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package depotpb;
+
+message OrderItem {
+  string product_id = 1;
+  string store_id = 2;
+  int32 quantity = 3;
+}
+
+message ShoppingList {
+  string id = 1;
+  string order_id = 2;
+  map<string, Stop> stops = 3;
+  string assigned_bot_id = 4;
+  string status = 5;
+}
+
+message Stop {
+  string store_name = 1;
+  string store_location = 2;
+  map<string, Item> items = 3;
+}
+
+message Item {
+  string name = 1;
+  int32 quantity = 2;
+}
