@@ -1,0 +1,33 @@
+openapiOptions:
+  file:
+    - file: "depotpb/messages.proto"
+      option:
+        info:
+          title: Depot Operations
+          version: "1.0.0"
+        basePath: /
+  method:
+    - method: depotpb.DepotService.CreateShoppingList
+      option:
+        operationId: createShoppingList
+        tags:
+          - ShoppingList
+        summary: Schedule shopping tasks for an order
+    - method: depotpb.DepotService.CancelShoppingList
+      option:
+        operationId: cancelShoppingList
+        tags:
+          - ShoppingList
+        summary: Cancel a shopping task
+    - method: depotpb.DepotService.AssignShoppingList
+      option:
+        operationId: assignShoppingList
+        tags:
+          - ShoppingList
+        summary: Assign a shopping list to a bot
+    - method: depotpb.DepotService.CompleteShoppingList
+      option:
+        operationId: ccompleteShoppingList
+        tags:
+          - ShoppingList
+        summary: Complete a shopping task
