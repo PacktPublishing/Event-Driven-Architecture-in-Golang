@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package depotpb;
+
+import "depotpb/messages.proto";
+
+service DepotService {
+  rpc CreateShoppingList(CreateShoppingListRequest) returns (CreateShoppingListResponse) {}
+  rpc CancelShoppingList(CancelShoppingListRequest) returns (CancelShoppingListResponse) {}
+  rpc AssignShoppingList(AssignShoppingListRequest) returns (AssignShoppingListResponse) {}
+  rpc CompleteShoppingList(CompleteShoppingListRequest) returns (CompleteShoppingListResponse) {}
+}
+
+message CreateShoppingListRequest {
+  string order_id = 1;
+  repeated OrderItem items = 2;
+}
+
+message CreateShoppingListResponse {
+  string id = 1;
+}
+
+message CancelShoppingListRequest {
+  string id = 1;
+}
+
+message CancelShoppingListResponse {}
+
+message AssignShoppingListRequest {
+  string id = 1;
+  string bot_id = 2;
+}
+
+message AssignShoppingListResponse {}
+
+message CompleteShoppingListRequest {
+  string id = 1;
+}
+
+message CompleteShoppingListResponse {}

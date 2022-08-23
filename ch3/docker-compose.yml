@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  monolith:
+    container_name: monolith
+    hostname: monolith
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - '8080:8080'
+      - '8085:8085'
+    env_file:
+      - docker/.env
+    depends_on:
+      - postgres
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/monolith" ]
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: itsasecret
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+      - './docker/database:/docker-entrypoint-initdb.d'
+
+volumes:
+  pgdata:
