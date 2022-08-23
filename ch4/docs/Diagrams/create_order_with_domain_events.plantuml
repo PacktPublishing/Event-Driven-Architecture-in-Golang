@@ -1,0 +1,35 @@
+@startuml
+!theme plain
+
+actor User as u
+boundary Application as app
+control CreateOrder as co
+entity Order as o
+database Database as db
+control Dispatcher as ed
+control NotifyCustomer as nc
+
+== Event Handler Subscriptions ==
+nc -> ed : Subscribe to OrderCreated
+== Order Creation ==
+u -> app : Create a new Order
+activate app
+app -> co : Create Order
+activate co
+co -> o : Create new Order
+o -> o : Add OrderCreated
+co -> db : Save Order
+co -> o : Publish
+o -> ed : Raise Events
+activate ed
+ed -> nc : Send Event
+activate nc
+nc -> ed : Success
+deactivate nc
+ed -> co : Success
+deactivate ed
+co -> app : Success
+deactivate co
+app -> u : Success
+deactivate app
+@endump

@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package storespb;
+
+import "storespb/messages.proto";
+
+service StoresService {
+  rpc CreateStore(CreateStoreRequest) returns (CreateStoreResponse) {};
+  rpc GetStore(GetStoreRequest) returns (GetStoreResponse) {};
+  rpc GetStores(GetStoresRequest) returns (GetStoresResponse) {};
+  rpc EnableParticipation(EnableParticipationRequest) returns (EnableParticipationResponse) {};
+  rpc DisableParticipation(DisableParticipationRequest) returns (DisableParticipationResponse) {};
+  rpc GetParticipatingStores(GetParticipatingStoresRequest) returns (GetParticipatingStoresResponse) {};
+  rpc AddProduct(AddProductRequest) returns (AddProductResponse) {};
+  rpc RemoveProduct(RemoveProductRequest) returns (RemoveProductResponse) {};
+  rpc GetCatalog(GetCatalogRequest) returns (GetCatalogResponse) {};
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse) {};
+}
+
+message CreateStoreRequest {
+  string name = 1;
+  string location = 2;
+}
+
+message CreateStoreResponse {
+  string id = 1;
+}
+
+message GetStoreRequest {
+  string id = 1;
+}
+
+message GetStoreResponse {
+  Store store = 1;
+}
+
+message GetStoresRequest {}
+
+message GetStoresResponse {
+  repeated Store stores = 1;
+}
+
+message EnableParticipationRequest {
+  string id = 1;
+}
+
+message EnableParticipationResponse {}
+
+message DisableParticipationRequest {
+  string id = 1;
+}
+
+message DisableParticipationResponse {}
+
+message GetParticipatingStoresRequest {}
+
+message GetParticipatingStoresResponse {
+  repeated Store stores = 1;
+}
+
+message AddProductRequest {
+  string store_id = 1;
+  string name = 2;
+  string description = 3;
+  string sku = 4;
+  double price = 5;
+}
+
+message AddProductResponse {
+  string id = 1;
+}
+
+message RemoveProductRequest {
+  string id = 1;
+}
+
+message RemoveProductResponse {}
+
+message GetCatalogRequest {
+  string store_id = 1;
+}
+
+message GetCatalogResponse {
+  repeated Product products = 1;
+}
+
+message GetProductRequest {
+  string id = 1;
+}
+
+message GetProductResponse {
+  Product product = 1;
+}
