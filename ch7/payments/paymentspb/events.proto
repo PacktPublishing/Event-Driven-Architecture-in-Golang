@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package paymentspb;
+
+message InvoicePaid {
+  string id = 1;
+  string order_id = 2;
+}

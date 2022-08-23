@@ -1,0 +1,40 @@
+type: google.api.Service
+config_version: 3
+http:
+  rules:
+    - selector: storespb.StoresService.CreateStore
+      post: /api/stores
+      body: "*"
+    - selector: storespb.StoresService.EnableParticipation
+      put: /api/stores/{id}/participating
+      body: "*"
+    - selector: storespb.StoresService.DisableParticipation
+      delete: /api/stores/{id}/participating
+    - selector: storespb.StoresService.RebrandStore
+      put: /api/stores/{id}/rebrand
+      body: "*"
+    - selector: storespb.StoresService.GetStores
+      get: /api/stores
+    - selector: storespb.StoresService.GetStore
+      get: /api/stores/{id}
+    - selector: storespb.StoresService.GetParticipatingStores
+      get: /api/stores/participating
+
+    - selector: storespb.StoresService.AddProduct
+      post: /api/stores/{store_id}/products
+      body: "*"
+    - selector: storespb.StoresService.RebrandProduct
+      put: /api/stores/products/{id}/rebrand
+      body: "*"
+    - selector: storespb.StoresService.IncreaseProductPrice
+      put: /api/stores/products/{id}/increasePrice
+      body: "*"
+    - selector: storespb.StoresService.DecreaseProductPrice
+      put: /api/stores/products/{id}/decreasePrice
+      body: "*"
+    - selector: storespb.StoresService.RemoveProduct
+      delete: /api/stores/products/{id}
+    - selector: storespb.StoresService.GetProduct
+      get: /api/stores/products/{id}
+    - selector: storespb.StoresService.GetCatalog
+      get: /api/stores/{store_id}/products

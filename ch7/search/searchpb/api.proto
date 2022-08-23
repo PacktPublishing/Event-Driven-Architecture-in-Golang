@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package searchpb;
+
+import "google/protobuf/timestamp.proto";
+
+service SearchService {
+  rpc SearchOrders(SearchOrdersRequest) returns (SearchOrdersResponse) {}
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse) {}
+}
+
+message Order {
+  message Item {
+    string product_id = 1;
+    string store_id = 2;
+    string product_name = 3;
+    string store_name = 4;
+    double price = 5;
+    int64 quantity = 6;
+  }
+
+  string order_id = 1;
+  string customer_id = 2;
+  string customer_name = 3;
+  repeated Item items = 4;
+  double total = 5;
+  string status = 6;
+}
+
+message SearchOrdersRequest {
+  message Filters {
+    string customer_id = 1;
+    google.protobuf.Timestamp after = 2;
+    google.protobuf.Timestamp before = 3;
+    repeated string store_ids = 4;
+    repeated string product_ids = 5;
+    double min_total = 6;
+    double max_total = 7;
+    string status = 8;
+  }
+  Filters filters = 1;
+  string next = 2;
+  int32 limit = 3;
+}
+message SearchOrdersResponse {
+  repeated Order orders = 1;
+  string next = 2;
+}
+
+message GetOrderRequest {
+  string id = 1;
+}
+message GetOrderResponse {
+  Order order = 1;
+}

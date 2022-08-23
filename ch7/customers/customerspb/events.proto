@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package customerspb;
+
+message CustomerRegistered {
+  string id = 1;
+  string name = 2;
+  string sms_number = 3;
+}
+
+message CustomerSmsChanged {
+  string id = 1;
+  string sms_number = 2;
+}
+
+message CustomerEnabled {
+  string id = 1;
+}
+
+message CustomerDisabled {
+  string id = 1;
+}

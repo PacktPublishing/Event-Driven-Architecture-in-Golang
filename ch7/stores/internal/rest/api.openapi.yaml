@@ -1,0 +1,93 @@
+openapiOptions:
+  file:
+    - file: "storespb/api.proto"
+      option:
+        info:
+          title: Store Management
+          version: "1.0.0"
+        basePath: /
+  method:
+    - method: storespb.StoresService.CreateStore
+      option:
+        operationId: createStore
+        tags:
+          - Store
+        summary: Create a new store
+    - method: storespb.StoresService.EnableParticipation
+      option:
+        operationId: enableParticipation
+        tags:
+          - Participation
+        summary: Enable store service participation
+    - method: storespb.StoresService.DisableParticipation
+      option:
+        operationId: disableParticipation
+        tags:
+          - Participation
+        summary: Disable store service participation
+    - method: storespb.StoresService.RebrandStore
+      option:
+        operationId: rebrandStore
+        tags:
+          - Store
+    - method: storespb.StoresService.GetStore
+      option:
+        operationId: getStore
+        tags:
+          - Store
+        summary: Get a store
+    - method: storespb.StoresService.GetStores
+      option:
+        operationId: getStores
+        tags:
+          - Store
+        summary: Get a list of stores
+    - method: storespb.StoresService.GetParticipatingStores
+      option:
+        operationId: getParticipatingStores
+        tags:
+          - Participation
+        summary: Get a list of participating stores
+
+    - method: storespb.StoresService.AddProduct
+      option:
+        operationId: addProduct
+        tags:
+          - Product
+        summary: Add a store product
+    - method: storespb.StoresService.RebrandProduct
+      option:
+        operationId: rebrandProduct
+        tags:
+          - Product
+        summary: Change the name and description of a product
+    - method: storespb.StoresService.IncreaseProductPrice
+      option:
+        operationId: increaseProductPrice
+        tags:
+          - Product
+        summary: Increase the price of a product
+    - method: storespb.StoresService.DecreaseProductPrice
+      option:
+        operationId: decreaseProductPrice
+        tags:
+          - Product
+        summary: Decrease the price of a product
+    - method: storespb.StoresService.RemoveProduct
+      option:
+        operationId: removeProduct
+        tags:
+          - Product
+        summary: Remove a store product
+    - method: storespb.StoresService.GetProduct
+      option:
+        operationId: getProduct
+        tags:
+          - Product
+        summary: Get a store product
+    - method: storespb.StoresService.GetCatalog
+      option:
+        operationId: getStoreProduct
+        tags:
+          - Product
+        summary: Get a list of store products
