@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  monolith:
+    container_name: monolith
+    hostname: monolith
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - '8080:8080'
+      - '8085:8085'
+    env_file:
+      - docker/.env
+    depends_on:
+      - nats
+      - postgres
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/monolith" ]
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: itsasecret
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+      - './docker/database:/docker-entrypoint-initdb.d'
+  nats:
+    container_name: nats
+    hostname: nats
+    image: nats:2-alpine
+    ports:
+      - '4222:4222'
+    command:
+      - -js
+      - -sd
+      - /var/lib/nats/data
+    volumes:
+      - 'jsdata:/var/lib/nats/data'
+  pact:
+    container_name: pact
+    hostname: pact
+    image: pactfoundation/pact-broker:2
+    ports:
+      - "9292:9292"
+    depends_on:
+      - postgres
+    environment:
+      PACT_BROKER_DATABASE_URL: "postgres://pactuser:pactpass@postgres/pactdb"
+      PACT_BROKER_BASIC_AUTH_USERNAME: pactuser
+      PACT_BROKER_BASIC_AUTH_PASSWORD: pactpass
+      PACT_BROKER_ALLOW_PUBLIC_READ: true
+      PACT_BROKER_DATABASE_CONNECT_MAX_RETRIES: 5
+      PACT_BROKER_BASE_URL: 'http://localhost:9292 http://pact-broker:9292'
+    profiles:
+      - testing
+volumes:
+  pgdata:
+  jsdata:

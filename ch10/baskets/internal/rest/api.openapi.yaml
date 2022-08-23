@@ -1,0 +1,45 @@
+openapiOptions:
+  file:
+    - file: "basketspb/api.proto"
+      option:
+        info:
+          title: Shopping Baskets
+          version: "1.0.0"
+        basePath: /
+  method:
+    - method: basketspb.BasketService.StartBasket
+      option:
+        operationId: startBasket
+        tags:
+          - Basket
+        summary: Start a new shopping basket
+    - method: basketspb.BasketService.GetBasket
+      option:
+        operationId: getBasket
+        tags:
+          - Basket
+        summary: Get a basket
+    - method: basketspb.BasketService.CancelBasket
+      option:
+        operationId: cancelBasket
+        tags:
+          - Basket
+        summary: Cancel a shopping basket
+    - method: basketspb.BasketService.CheckoutBasket
+      option:
+        operationId: checkoutBasket
+        tags:
+          - Basket
+        summary: Checkout with a shopping basket
+    - method: basketspb.BasketService.AddItem
+      option:
+        operationId: addItem
+        tags:
+          - Item
+        summary: Add or add quantity to an item in the shopping basket
+    - method: basketspb.BasketService.RemoveItem
+      option:
+        operationId: removeItem
+        tags:
+          - Item
+        summary: Remove or remove quantity to an item in the shopping basket

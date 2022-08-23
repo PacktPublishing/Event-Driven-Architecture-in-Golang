@@ -1,0 +1,9 @@
+type: google.api.Service
+config_version: 3
+http:
+  rules:
+    - selector: searchpb.SearchService.SearchOrders
+      post: /api/search/orders
+      body: "*"
+    - selector: searchpb.SearchService.GetOrder
+      get: /api/search/orders/{id}

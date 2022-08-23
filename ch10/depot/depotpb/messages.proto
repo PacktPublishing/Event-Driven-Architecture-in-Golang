@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package depotpb;
+
+// Events
+
+message ShoppingListCompleted {
+  string id = 1;
+  string order_id = 2;
+}
+
+// Commands
+
+message CreateShoppingList {
+  message Item {
+    string product_id = 1;
+    string store_id = 2;
+    int32 quantity = 3;
+  }
+  string order_id = 1;
+  repeated Item items = 2;
+}
+
+message CancelShoppingList {
+  string id = 1;
+}
+
+message InitiateShopping {
+  string id = 1;
+}
+
+// Replies
+
+message CreatedShoppingList {
+  string id = 1;
+}
