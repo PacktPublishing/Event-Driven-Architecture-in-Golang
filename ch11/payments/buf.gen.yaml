@@ -1,0 +1,28 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: eda-in-golang/payments/paymentspb
+    except:
+      - buf.build/googleapis/googleapis
+plugins:
+  - name: go
+    out: .
+    opt:
+      - paths=source_relative
+  - name: go-grpc
+    out: .
+    opt:
+      - paths=source_relative
+  - name: grpc-gateway
+    out: .
+    opt:
+      - paths=source_relative
+      - grpc_api_configuration=internal/rest/api.annotations.yaml
+  - name: openapiv2
+    out: internal/rest
+    opt:
+      - grpc_api_configuration=internal/rest/api.annotations.yaml
+      - openapi_configuration=internal/rest/api.openapi.yaml
+      - allow_merge=true
+      - merge_file_name=api

@@ -1,0 +1,71 @@
+{
+  "consumer": {
+    "name": "baskets-sub"
+  },
+  "messages": [
+    {
+      "contents": {
+        "Name": "storesapi.StoreCreated",
+        "Payload": {
+          "id": "store-id",
+          "name": "NewStore"
+        }
+      },
+      "description": "a StoreCreated message",
+      "matchingRules": {
+        "body": {
+          "$.Payload": {
+            "combine": "AND",
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "contentType": "application/json",
+        "subject": "mallbots.stores.events.Store"
+      }
+    },
+    {
+      "contents": {
+        "Name": "storesapi.StoreRebranded",
+        "Payload": {
+          "id": "store-id",
+          "name": "RebrandedStore"
+        }
+      },
+      "description": "a StoreRebranded message",
+      "matchingRules": {
+        "body": {
+          "$.Payload": {
+            "combine": "AND",
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "contentType": "application/json",
+        "subject": "mallbots.stores.events.Store"
+      }
+    }
+  ],
+  "metadata": {
+    "pactRust": {
+      "ffi": "0.3.5",
+      "models": "0.4.1"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "stores-pub"
+  }
+}
