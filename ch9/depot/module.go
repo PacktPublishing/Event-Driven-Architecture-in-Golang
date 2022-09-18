@@ -75,7 +75,10 @@ func (Module) Startup(ctx context.Context, mono monolith.Monolith) (err error) {
 		), nil
 	})
 	container.AddScoped("eventStream", func(c di.Container) (any, error) {
-		return am.NewEventStream(c.Get("registry").(registry.Registry), c.Get("txStream").(am.RawMessageStream)), nil
+		return am.NewEventStream(
+			c.Get("registry").(registry.Registry),
+			c.Get("txStream").(am.RawMessageStream),
+		), nil
 	})
 	container.AddScoped("commandStream", func(c di.Container) (any, error) {
 		return am.NewCommandStream(c.Get("registry").(registry.Registry), c.Get("txStream").(am.RawMessageStream)), nil
@@ -89,7 +92,10 @@ func (Module) Startup(ctx context.Context, mono monolith.Monolith) (err error) {
 		return tm.NewInboxHandlerMiddleware(inboxStore), nil
 	})
 	container.AddScoped("shoppingLists", func(c di.Container) (any, error) {
-		return postgres.NewShoppingListRepository("depot.shopping_lists", c.Get("tx").(*sql.Tx)), nil
+		return postgres.NewShoppingListRepository(
+			"depot.shopping_lists",
+			c.Get("tx").(*sql.Tx),
+		), nil
 	})
 	container.AddScoped("stores", func(c di.Container) (any, error) {
 		return postgres.NewStoreCacheRepository(

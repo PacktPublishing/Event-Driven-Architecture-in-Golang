@@ -46,6 +46,7 @@ func (s *productCacheSuite) SetupSuite() {
 	if err != nil {
 		s.T().Fatal(err)
 	}
+	const dbUrl = "postgres://mallbots_user:mallbots_pass@localhost:%s/mallbots?sslmode=disable"
 	s.container, err = testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image:        "postgres:12-alpine",
@@ -58,7 +59,7 @@ func (s *productCacheSuite) SetupSuite() {
 				testcontainers.BindMount(initDir, "/docker-entrypoint-initdb.d"),
 			},
 			WaitingFor: wait.ForSQL("5432/tcp", "pgx", func(port nat.Port) string {
-				return fmt.Sprintf("postgres://mallbots_user:mallbots_pass@localhost:%s/mallbots?sslmode=disable", port.Port())
+				return fmt.Sprintf(dbUrl, port.Port())
 			}).Timeout(5 * time.Second),
 		},
 		Started: true,

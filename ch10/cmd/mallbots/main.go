@@ -28,6 +28,7 @@ import (
 	"eda-in-golang/notifications"
 	"eda-in-golang/ordering"
 	"eda-in-golang/payments"
+	"eda-in-golang/search"
 	"eda-in-golang/stores"
 )
 
@@ -90,6 +91,7 @@ func run() (err error) {
 		&payments.Module{},
 		&stores.Module{},
 		&cosec.Module{},
+		&search.Module{},
 	}
 
 	if err = m.startupModules(); err != nil {

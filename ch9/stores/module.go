@@ -161,7 +161,11 @@ func registrations(reg registry.Registry) (err error) {
 	serde := serdes.NewJsonSerde(reg)
 
 	// Store
-	if err = serde.Register(domain.Store{}); err != nil {
+	if err = serde.Register(domain.Store{}, func(v any) error {
+		store := v.(*domain.Store)
+		store.Aggregate = es.NewAggregate("", domain.StoreAggregate)
+		return nil
+	}); err != nil {
 		return
 	}
 	// store events
@@ -183,7 +187,11 @@ func registrations(reg registry.Registry) (err error) {
 	}
 
 	// Product
-	if err = serde.Register(domain.Product{}); err != nil {
+	if err = serde.Register(domain.Product{}, func(v any) error {
+		store := v.(*domain.Product)
+		store.Aggregate = es.NewAggregate("", domain.ProductAggregate)
+		return nil
+	}); err != nil {
 		return
 	}
 	// product events

@@ -77,7 +77,11 @@ func registrations(reg registry.Registry) error {
 	serde := serdes.NewJsonSerde(reg)
 
 	// Order
-	if err := serde.Register(domain.Order{}); err != nil {
+	if err := serde.Register(domain.Order{}, func(v any) error {
+		order := v.(*domain.Order)
+		order.Aggregate = es.NewAggregate("", domain.OrderAggregate)
+		return nil
+	}); err != nil {
 		return err
 	}
 	// order events
