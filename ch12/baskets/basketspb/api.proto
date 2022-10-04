@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package basketspb;
+
+service BasketService {
+  rpc StartBasket(StartBasketRequest) returns (StartBasketResponse) {};
+  rpc CancelBasket(CancelBasketRequest) returns (CancelBasketResponse) {};
+  rpc CheckoutBasket(CheckoutBasketRequest) returns (CheckoutBasketResponse) {};
+  rpc AddItem(AddItemRequest) returns (AddItemResponse) {};
+  rpc RemoveItem(RemoveItemRequest) returns (RemoveItemResponse) {};
+  rpc GetBasket(GetBasketRequest) returns (GetBasketResponse) {};
+}
+
+message Basket {
+  string id = 1;
+  repeated Item items = 2;
+}
+
+message Item {
+  string store_id = 1;
+  string product_id = 2;
+  string store_name = 3;
+  string product_name = 4;
+  double product_price = 5;
+  int32 quantity = 6;
+}
+
+message StartBasketRequest {
+  string customer_id = 1;
+}
+
+message StartBasketResponse {
+  string id = 1;
+}
+
+message CancelBasketRequest {
+  string id = 1;
+}
+
+message CancelBasketResponse {}
+
+message CheckoutBasketRequest {
+  string id = 1;
+  string payment_id = 2;
+}
+
+message CheckoutBasketResponse {}
+
+message AddItemRequest {
+  string id = 1;
+  string product_id = 3;
+  int32 quantity = 4;
+}
+
+message AddItemResponse {}
+
+message RemoveItemRequest {
+  string id = 1;
+  string product_id = 3;
+  int32 quantity = 4;
+}
+
+message RemoveItemResponse {}
+
+message GetBasketRequest {
+  string id = 1;
+}
+
+message GetBasketResponse {
+  Basket basket = 1;
+}

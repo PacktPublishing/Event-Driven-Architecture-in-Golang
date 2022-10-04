@@ -1,0 +1,37 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+  otlp/spanmetrics:
+    protocols:
+      grpc:
+        endpoint: "localhost:65535"
+
+exporters:
+  jaeger:
+    endpoint: "jaeger:14250"
+    tls:
+      insecure: true
+  logging:
+  prometheus:
+    endpoint: "collector:9464"
+
+
+processors:
+  batch:
+  spanmetrics:
+    metrics_exporter: prometheus
+
+service:
+  pipelines:
+    traces:
+      receivers: [ otlp ]
+      processors: [ spanmetrics, batch ]
+      exporters: [ logging, jaeger ]
+    metrics:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ prometheus, logging ]
+    metrics/spanmetrics:
+      receivers: [ otlp/spanmetrics ]
+      exporters: [ prometheus, logging ]

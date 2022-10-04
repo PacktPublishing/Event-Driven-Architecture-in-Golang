@@ -1,0 +1,57 @@
+global:
+  evaluation_interval: 30s
+  scrape_interval: 5s
+scrape_configs:
+  - job_name: baskets
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'baskets:8080'
+  - job_name: cosec
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'cosec:8080'
+  - job_name: customers
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'customers:8080'
+  - job_name: depot
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'depot:8080'
+  - job_name: notifications
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'notifications:8080'
+  - job_name: ordering
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'ordering:8080'
+  - job_name: payments
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'payments:8080'
+  - job_name: search
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'search:8080'
+  - job_name: stores
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'stores:8080'
+  - job_name: otel
+    static_configs:
+      - targets:
+          - 'collector:9464'
+  - job_name: otel-collector
+    static_configs:
+      - targets:
+          - 'collector:8888'

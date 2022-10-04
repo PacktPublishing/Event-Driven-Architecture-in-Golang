@@ -1,0 +1,36 @@
+@startuml
+!theme plain
+skinparam dpi 400
+skinparam defaultFontName Jetbrains Mono
+
+'actor User as u
+boundary Application as app
+control AddItem as ai
+entity Basket as b
+database Database as db
+boundary "Store Module" as s
+
+'u --> app : Add an item
+activate app
+app --> ai : Add Item
+activate ai
+ai --> s : Get a product
+activate s
+s --> s : GetProduct
+s --> ai : Product information
+deactivate s
+ai --> s : Get a store
+activate s
+s --> s : GetStore
+s --> ai : Store information
+deactivate s
+ai --> b : Add an item
+activate b
+b --> ai : Success
+deactivate b
+ai --> db : Save the basket
+ai --> app : Success
+deactivate ai
+'app --> u : Success
+'deactivate app
+@enduml

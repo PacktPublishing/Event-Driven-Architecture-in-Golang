@@ -1,0 +1,37 @@
+@startuml
+!theme plain
+skinparam dpi 400
+skinparam defaultFontName Jetbrains Mono
+
+actor User as u
+boundary Application as app
+control CreateOrder as co
+entity Order as o
+database Database as db
+control Dispatcher as ed
+control NotifyCustomer as nc
+
+== Event Handler Subscriptions ==
+nc -> ed : Subscribe to OrderCreated
+== Order Creation ==
+u -> app : Create a new order
+activate app
+app -> co : Create order
+activate co
+co -> o : Create new order
+o -> o : Add OrderCreated
+co -> db : Save order
+co -> o : Publish
+o -> ed : Raise events
+activate ed
+ed -> nc : Send event
+activate nc
+nc -> ed : Success
+deactivate nc
+ed -> co : Success
+deactivate ed
+co -> app : Success
+deactivate co
+app -> u : Success
+deactivate app
+@endump

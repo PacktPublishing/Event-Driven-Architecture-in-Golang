@@ -1,0 +1,350 @@
+version: "3.8"
+
+services:
+  #
+  # docker compose--profile monolith up
+  #
+  monolith:
+    container_name: monolith
+    hostname: monolith
+    image: mallbots-monolith
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - '8080:8080'
+      - '8085:8085'
+    env_file:
+      - docker/.env
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/monolith" ]
+    profiles: [ monolith ]
+
+  #
+  # docker compose--profile microservices up
+  #
+  baskets:
+    container_name: baskets
+    hostname: baskets
+    image: mallbots-baskets
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: baskets
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=baskets user=baskets_user password=baskets_pass search_path=baskets,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: baskets
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles: [ microservices ]
+  cosec:
+    container_name: cosec
+    hostname: cosec
+    image: mallbots-cosec
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: cosec
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=cosec user=cosec_user password=cosec_pass search_path=cosec,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: cosec
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles:
+      - microservices
+  customers:
+    container_name: customers
+    hostname: customers
+    image: mallbots-customers
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: customers
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=customers user=customers_user password=customers_pass search_path=customers,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: customers
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles:
+      - microservices
+  depot:
+    container_name: depot
+    hostname: depot
+    image: mallbots-depot
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: depot
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=depot user=depot_user password=depot_pass search_path=depot,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: depot
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles:
+      - microservices
+  notifications:
+    container_name: notifications
+    hostname: notifications
+    image: mallbots-notifications
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: notifications
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=notifications user=notifications_user password=notifications_pass search_path=notifications,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: notifications
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles:
+      - microservices
+  ordering:
+    container_name: ordering
+    hostname: ordering
+    image: mallbots-ordering
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: ordering
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=ordering user=ordering_user password=ordering_pass search_path=ordering,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: ordering
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles:
+      - microservices
+  payments:
+    container_name: payments
+    hostname: payments
+    image: mallbots-payments
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: payments
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=payments user=payments_user password=payments_pass search_path=payments,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: payments
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles:
+      - microservices
+  search:
+    container_name: search
+    hostname: search
+    image: mallbots-search
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: search
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=search user=search_user password=search_pass search_path=search,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: search
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles:
+      - microservices
+  stores:
+    container_name: stores
+    hostname: stores
+    image: mallbots-stores
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.microservices
+      args:
+        service: stores
+    expose:
+      - '9000'
+    environment:
+      ENVIRONMENT: development
+      RPC_SERVICES: 'STORES=stores:9000,CUSTOMERS=customers:9000'
+      PG_CONN: host=postgres dbname=stores user=stores_user password=stores_pass search_path=stores,public
+      NATS_URL: nats:4222
+      OTEL_SERVICE_NAME: stores
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+    depends_on:
+      - nats
+      - postgres
+      - collector
+    command: [ "./wait-for", "postgres:5432", "--", "/mallbots/service" ]
+    profiles:
+      - microservices
+
+  reverse-proxy:
+    container_name: proxy
+    hostname: proxy
+    image: nginx:alpine
+    ports:
+      - '8080:8080'
+    volumes:
+      - './docker/nginx.conf:/etc/nginx/nginx.conf'
+    profiles:
+      - microservices
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: itsasecret
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+      - './docker/database:/docker-entrypoint-initdb.d'
+  nats:
+    container_name: nats
+    hostname: nats
+    image: nats:2-alpine
+    ports:
+      - '4222:4222'
+    command:
+      - -js
+      - -sd
+      - /var/lib/nats/data
+    volumes:
+      - 'jsdata:/var/lib/nats/data'
+  pact:
+    container_name: pact
+    hostname: pact
+    image: pactfoundation/pact-broker:2
+    ports:
+      - "9292:9292"
+    depends_on:
+      - postgres
+    environment:
+      PACT_BROKER_DATABASE_URL: 'postgres://pactuser:pactpass@postgres/pactdb'
+      PACT_BROKER_BASIC_AUTH_USERNAME: pactuser
+      PACT_BROKER_BASIC_AUTH_PASSWORD: pactpass
+      PACT_BROKER_ALLOW_PUBLIC_READ: 'true'
+      PACT_BROKER_DATABASE_CONNECT_MAX_RETRIES: 5
+      PACT_BROKER_BASE_URL: 'http://localhost:9292 http://pact-broker:9292'
+  collector:
+    container_name: collector
+    hostname: collector
+    image: otel/opentelemetry-collector-contrib:0.60.0
+    command: [
+      "--config=/etc/otel-config.yml",
+    ]
+    volumes:
+      - ./docker/otel/otel-config.yml:/etc/otel-config.yml
+    ports:
+      - "1888:1888"   # pprof extension
+      - "8888:8888"   # Prometheus metrics exposed by the collector
+      - "8889:8889"   # Prometheus exporter metrics
+      - "13133:13133" # health_check extension
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP http receiver
+#      - "55679:55679" # zpages extension
+  jaeger:
+    container_name: jaeger
+    hostname: jaeger
+    image: jaegertracing/all-in-one:1
+    ports:
+      - "8081:16686"
+      - "14250"
+  prometheus:
+    container_name: prometheus
+    hostname: prometheus
+    image: prom/prometheus:v2.37.1
+    command: [
+      "--config.file=/etc/prometheus/prometheus-config.yml",
+    ]
+    volumes:
+      - ./docker/prometheus/prometheus-config.yml:/etc/prometheus/prometheus-config.yml
+    ports:
+      - "9090:9090"
+  grafana:
+    container_name: grafana
+    hostname: grafana
+    image: grafana/grafana:9.0.9
+    volumes:
+      - ./docker/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
+  jsdata:

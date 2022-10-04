@@ -1,0 +1,79 @@
+### Create Store
+POST http://localhost:8080/api/stores
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Store ABC",
+  "location": "The mall"
+}
+
+> {% client.global.set("storeID", response.body.id); %}
+
+### Create Product
+POST http://localhost:8080/api/stores/{{storeID}}/products
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Product ABC",
+  "description": "Product description",
+  "sku": "productABC",
+  "price": 9.99
+}
+
+> {% client.global.set("productID", response.body.id); %}
+
+### Register Customer
+POST http://localhost:8080/api/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Customer ABC",
+  "smsNumber": "555-555-1212"
+}
+
+> {% client.global.set("customerID", response.body.id); %}
+
+### Start Basket
+POST http://localhost:8080/api/baskets
+Content-Type: application/json
+Accept: application/json
+
+{
+  "customerId": "{{customerID}}"
+}
+
+> {% client.global.set("basketID", response.body.id); %}
+
+### Add Items
+PUT http://localhost:8080/api/baskets/{{basketID}}/addItem
+Content-Type: application/json
+Accept: application/json
+
+{
+  "productId": "{{productID}}",
+  "quantity": 5
+}
+
+### Create Payment
+POST http://localhost:8080/api/payments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "customerId": "{{customerID}}",
+  "amount": 200.0
+}
+
+> {% client.global.set("paymentID", response.body.id); %}
+
+### Checkout Basket
+PUT http://localhost:8080/api/baskets/{{basketID}}/checkout
+Content-Type: application/json
+Accept: application/json
+
+{
+  "paymentId": "{{paymentID}}"
+}
