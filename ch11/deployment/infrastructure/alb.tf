@@ -9,6 +9,7 @@ variable lb_service_account_name {
   default = "aws-load-balancer-controller"
 }
 
+// https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/service_account_v1
 resource kubernetes_service_account_v1 lb_service_account {
   metadata {
     name      = var.lb_service_account_name
