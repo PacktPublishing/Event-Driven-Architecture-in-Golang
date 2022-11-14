@@ -55,4 +55,4 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 
 ## Get to Know the Author
 **Michael Stack**
-is currently working as a solutions architect in a consulting firm called Booz Allen Hamilton. Michael has been working with Golang for 7 years. I have been using Golang to write microservices and open-source tools. He has more than 20+ years of software development experience which involves 10 years of experience working with complex n-tier systems. He has created more than 50+ projects that are complex and involve messaging patterns.
+is a solutions architect with more than 20 years experience developing software. He has been working with Golang for over seven years. During his career he has developed numerous N-tier applications, and is focused on development involving microservices and other distributed applications running in the cloud.
