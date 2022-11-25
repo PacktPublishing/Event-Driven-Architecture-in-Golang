@@ -56,3 +56,8 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 ## Get to Know the Author
 **Michael Stack**
 is a solutions architect with more than 20 years experience developing software. He has been working with Golang for over seven years. During his career he has developed numerous N-tier applications, and is focused on development involving microservices and other distributed applications running in the cloud.
+
+### Download a free PDF
+
+ <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
+<p align="center"> <a href="https://packt.link/free-ebook/9781803238012">https://packt.link/free-ebook/9781803238012 </a> </p>
