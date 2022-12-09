@@ -10,12 +10,7 @@ const (
 )
 
 func (s BasketStatus) String() string {
-	switch s {
-	case BasketIsOpen, BasketIsCanceled, BasketIsCheckedOut:
-		return string(s)
-	default:
-		return ""
-	}
+	return string(s)
 }
 
 func ToBasketStatus(status string) BasketStatus {

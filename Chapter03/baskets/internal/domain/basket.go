@@ -26,12 +26,7 @@ const (
 )
 
 func (s BasketStatus) String() string {
-	switch s {
-	case BasketOpen, BasketCancelled, BasketCheckedOut:
-		return string(s)
-	default:
-		return ""
-	}
+	return string(s)
 }
 
 type Basket struct {
