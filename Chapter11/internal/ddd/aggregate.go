@@ -53,7 +53,7 @@ func NewAggregate(id, name string) *aggregate {
 
 func (a aggregate) AggregateName() string    { return a.EntityName() }
 func (a aggregate) Events() []AggregateEvent { return a.events }
-func (a aggregate) ClearEvents()             { a.events = []AggregateEvent{} }
+func (a *aggregate) ClearEvents()            { a.events = []AggregateEvent{} }
 
 func (a *aggregate) AddEvent(name string, payload EventPayload, options ...EventOption) {
 	options = append(

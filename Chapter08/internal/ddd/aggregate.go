@@ -48,7 +48,7 @@ func NewAggregate(id, name string) Aggregate {
 
 func (a Aggregate) AggregateName() string    { return a.name }
 func (a Aggregate) Events() []AggregateEvent { return a.events }
-func (a Aggregate) ClearEvents()             { a.events = []AggregateEvent{} }
+func (a *Aggregate) ClearEvents()            { a.events = []AggregateEvent{} }
 
 func (a *Aggregate) AddEvent(name string, payload EventPayload, options ...EventOption) {
 	options = append(
